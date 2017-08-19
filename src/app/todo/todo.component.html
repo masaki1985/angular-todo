@@ -1,11 +1,11 @@
 <h2>todoList</h2>
-<input type="text" #newTodo>
+<input type="text" #newTodo autofocus>
 <button type="button" (click)="add(newTodo)">add</button>
 <ul>
   <li *ngFor="let todo of TodoList; let index = index;">
     <input type="checkbox" (click)="doCheck(index)">
     <span *ngIf="!todo.isEdit" (click)="edit(index)" [class.completed]="todo.isCompleted">{{todo.todo}}</span>
-    <input #new *ngIf="todo.isEdit" type="text" value="{{todo.todo}}" (blur)="update(index, new.value)">
+    <input #inputTodo *ngIf="todo.isEdit" type="text" value="{{todo.todo}}" (blur)="update(index, inputTodo.value)">
     <button type="button" (click)="delete(index)">delete</button>
   </li>
 </ul>

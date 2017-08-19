@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 
 @Component({
   selector: 'app-todo',
@@ -7,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TodoComponent implements OnInit {
 
+  @ViewChildren('inputTodo') inputTodo: QueryList<ElementRef>;
+
   TodoList = [
-    // { todo : '宿題', isCompleted: false, isEdit: false },
-    // { todo : '昼寝', isCompleted: false, isEdit: false },
-    // { todo : '食事', isCompleted: false, isEdit: false }
+    { todo : '宿題', isCompleted: false, isEdit: false },
+    { todo : '昼寝', isCompleted: false, isEdit: false },
+    { todo : '食事', isCompleted: false, isEdit: false }
   ]
 
   constructor() { }
@@ -39,6 +41,12 @@ export class TodoComponent implements OnInit {
 
   edit(index) {
     this.TodoList[index].isEdit = true;
+
+    this.inputTodo.changes.subscribe(res => {
+      if (res.first) {
+        res.first.nativeElement.focus();
+      }
+    })
   }
 
   update(index, value) {
