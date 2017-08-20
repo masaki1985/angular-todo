@@ -21,6 +21,8 @@ export class TodoComponent implements OnInit {
   }
 
   add(element) {
+    console.log(1);
+    if (!element.value) { return; }
     const data = { todo: element.value, isCompleted: false, isEdit: false}
     this.TodoList.push(data);
     element.value = '';

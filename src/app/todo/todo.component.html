@@ -1,5 +1,5 @@
 <h2>todoList</h2>
-<input type="text" #newTodo autofocus>
+<input type="text" #newTodo autofocus (keyup.enter)="add(newTodo)">
 <button type="button" (click)="add(newTodo)">add</button>
 <ul>
   <li *ngFor="let todo of TodoList; let index = index;">
