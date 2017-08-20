@@ -9,6 +9,8 @@ export class TodoComponent implements OnInit {
 
   @ViewChildren('inputTodo') inputTodo: QueryList<ElementRef>;
 
+  isEnterPress = false;
+
   TodoList = [
     { todo : '宿題', isCompleted: false, isEdit: false },
     { todo : '昼寝', isCompleted: false, isEdit: false },
@@ -21,7 +23,6 @@ export class TodoComponent implements OnInit {
   }
 
   add(element) {
-    console.log(1);
     if (!element.value) { return; }
     const data = { todo: element.value, isCompleted: false, isEdit: false}
     this.TodoList.push(data);
@@ -52,6 +53,16 @@ export class TodoComponent implements OnInit {
   }
 
   update(index, value) {
+    if (this.isEnterPress) {
+      this.isEnterPress = false;
+      return;
+    }
+    this.TodoList[index].todo = value;
+    this.TodoList[index].isEdit = false;
+  }
+
+  updateByEnter(index, value) {
+    this.isEnterPress = true;
     this.TodoList[index].todo = value;
     this.TodoList[index].isEdit = false;
   }

@@ -5,7 +5,7 @@
   <li *ngFor="let todo of TodoList; let index = index;">
     <input type="checkbox" (click)="doCheck(index)">
     <span *ngIf="!todo.isEdit" (click)="edit(index)" [class.completed]="todo.isCompleted">{{todo.todo}}</span>
-    <input #inputTodo *ngIf="todo.isEdit" type="text" value="{{todo.todo}}" (blur)="update(index, inputTodo.value)">
+    <input #inputTodo *ngIf="todo.isEdit" type="text" value="{{todo.todo}}" (blur)="update(index, inputTodo.value)" (keyup.enter)="updateByEnter(index, inputTodo.value)">
     <button type="button" (click)="delete(index)">delete</button>
   </li>
 </ul>
