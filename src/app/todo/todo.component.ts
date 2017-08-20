@@ -10,6 +10,7 @@ export class TodoComponent implements OnInit {
   @ViewChildren('inputTodo') inputTodo: QueryList<ElementRef>;
 
   isEnterPress = false;
+  downkey: number;
 
   TodoList = [
     { todo : '宿題', isCompleted: false, isEdit: false },
@@ -29,6 +30,14 @@ export class TodoComponent implements OnInit {
     element.value = '';
   }
 
+  addByEnter(element, event) {
+    if (!element.value) { return; }
+    if (event.keyCode !== this.downkey) { return };
+    const data = { todo: element.value, isCompleted: false, isEdit: false}
+    this.TodoList.push(data);
+    element.value = '';
+  }
+
   doCheck(index) {
     if (this.TodoList[index].isCompleted) {
       this.TodoList[index].isCompleted = false;
@@ -38,7 +47,10 @@ export class TodoComponent implements OnInit {
   }
 
   delete(index) {
-    if (!this.TodoList[index].isCompleted) { return; }
+    if (!this.TodoList[index].isCompleted) {
+      alert('完了していないので削除できません');
+      return;
+    }
     this.TodoList.splice(index, 1);
   }
 
@@ -53,18 +65,26 @@ export class TodoComponent implements OnInit {
   }
 
   update(index, value) {
-    if (this.isEnterPress) {
-      this.isEnterPress = false;
-      return;
-    }
     this.TodoList[index].todo = value;
     this.TodoList[index].isEdit = false;
   }
 
-  updateByEnter(index, value) {
+  updateByBlur(index, value) {
+    if (this.isEnterPress) {
+      this.isEnterPress = false;
+      return;
+    }
+    this.update(index, value)
+  }
+
+  updateByEnter(index, value, event) {
+    if (event.keyCode !== this.downkey) { return }
     this.isEnterPress = true;
-    this.TodoList[index].todo = value;
-    this.TodoList[index].isEdit = false;
+    this.update(index, value);
+  }
+
+  keydown(event) {
+    this.downkey = event.keyCode;
   }
 }
 
