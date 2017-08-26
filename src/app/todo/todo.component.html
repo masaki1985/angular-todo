@@ -13,10 +13,7 @@
     <button type="button" (click)="select('noLimit')" [class.selected]="selected['noLimit']">無期限</button>
   </li> 
 </ul>
-<app-daily *ngIf="selectedList === 'daily'"></app-daily>
-<app-weekly *ngIf="selectedList === 'weekly'"></app-weekly>
-<app-monthly *ngIf="selectedList === 'monthly'"></app-monthly>
-<app-no-limit *ngIf="selectedList === 'noLimit'"></app-no-limit>
+<app-list [target]="selectedList"></app-list>
 
 <!-- 開発時に使用 -->
 <!-- <button type="button" (click)="clear()">clear</button> -->

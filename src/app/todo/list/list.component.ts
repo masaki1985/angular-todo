@@ -1,19 +1,19 @@
-import { Router } from '@angular/router';
 import { LocalstorageService } from '../shared/localstorage.service';
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, ElementRef, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 
 @Component({
-  selector: 'app-no-limit',
-  templateUrl: './no-limit.component.html',
-  styleUrls: ['./no-limit.component.css']
+  selector: 'app-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.css']
 })
-export class NoLimitComponent implements OnInit {
+export class ListComponent implements OnInit {
 
   @ViewChildren('editTodo') editTodo: QueryList<ElementRef>;
   @ViewChildren('addTodo') addTodo: QueryList<ElementRef>;
+  @Input() target: String;
 
   todoList;
-  target = 'noLimit';
   isEnterPress = false;
   isHidden = false;
   isAllChecked = true;
@@ -36,6 +36,11 @@ export class NoLimitComponent implements OnInit {
         this.isAllChecked = false;
       }
     })
+  }
+
+  getList() {
+    this.todoList = this.localstorageService.get(this.target);
+    return this.todoList;
   }
 
   add(element) {
@@ -89,11 +94,6 @@ export class NoLimitComponent implements OnInit {
       moveList = [];
     }
     moveList = moveList.concat(data);
-    // if (moveList) {
-    //   moveList = moveList.concat(data);
-    // } else {
-    //   moveList = data;
-    // }
 
     this.localstorageService.set(target, moveList);
     this.ngOnInit();

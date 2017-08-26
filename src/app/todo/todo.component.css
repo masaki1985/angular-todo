@@ -4,9 +4,6 @@
 .todo li {
     display: inline-block;
 }
-/* .todo button {
-    background: #ccc;
-} */
 .selected {
     background: #fff;
     outline: none;

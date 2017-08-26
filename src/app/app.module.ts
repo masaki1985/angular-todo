@@ -4,20 +4,14 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { TodoComponent } from './todo/todo.component';
-import { DailyComponent } from './todo/daily/daily.component';
-import { WeeklyComponent } from './todo/weekly/weekly.component';
 import { LocalstorageService } from './todo/shared/localstorage.service';
-import { MonthlyComponent } from './todo/monthly/monthly.component';
-import { NoLimitComponent } from './todo/no-limit/no-limit.component';
+import { ListComponent } from './todo/list/list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoComponent,
-    DailyComponent,
-    WeeklyComponent,
-    MonthlyComponent,
-    NoLimitComponent
+    ListComponent
   ],
   imports: [
     BrowserModule,
