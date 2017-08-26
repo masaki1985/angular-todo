@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo',
@@ -7,84 +8,54 @@ import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular
 })
 export class TodoComponent implements OnInit {
 
-  @ViewChildren('inputTodo') inputTodo: QueryList<ElementRef>;
-
-  isEnterPress = false;
-  downkey: number;
-
   TodoList = [
     { todo : '宿題', isCompleted: false, isEdit: false },
-    { todo : '昼寝', isCompleted: false, isEdit: false },
-    { todo : '食事', isCompleted: false, isEdit: false }
   ]
 
-  constructor() { }
-
-  ngOnInit() {
+  selectedList = 'daily';
+  selected = {
+    daily: true,
+    weekly: false,
+    monthly: false,
+    noLimit: false
   }
 
-  add(element) {
-    if (!element.value) { return; }
-    const data = { todo: element.value, isCompleted: false, isEdit: false}
-    this.TodoList.push(data);
-    element.value = '';
+  constructor(private router: Router) { }
+
+  ngOnInit() {　}
+
+  gotoDaily() {
+    this.router.navigateByUrl('daily')
   }
 
-  addByEnter(element, event) {
-    if (!element.value) { return; }
-    if (event.keyCode !== this.downkey) { return };
-    const data = { todo: element.value, isCompleted: false, isEdit: false}
-    this.TodoList.push(data);
-    element.value = '';
+  gotoWeekly() {
+    this.router.navigateByUrl('weekly')
   }
 
-  doCheck(index) {
-    if (this.TodoList[index].isCompleted) {
-      this.TodoList[index].isCompleted = false;
-    } else {
-      this.TodoList[index].isCompleted = true;
-    }
+  gotoMonthly() {
+    this.router.navigateByUrl('monthly')
   }
 
-  delete(index) {
-    if (!this.TodoList[index].isCompleted) {
-      alert('完了していないので削除できません');
-      return;
-    }
-    this.TodoList.splice(index, 1);
+  gotoNoLimit() {
+    this.router.navigateByUrl('noLimit')
   }
 
-  edit(index) {
-    this.TodoList[index].isEdit = true;
-
-    this.inputTodo.changes.subscribe(res => {
-      if (res.first) {
-        res.first.nativeElement.focus();
-      }
-    })
+  goto(target) {
+    this.router.navigateByUrl(target);
   }
 
-  update(index, value) {
-    this.TodoList[index].todo = value;
-    this.TodoList[index].isEdit = false;
+  select(target) {
+    this.selectedList = target;
+    this.selected['daily'] = false;
+    this.selected['weekly'] = false;
+    this.selected['monthly'] = false;
+    this.selected['noLimit'] = false;
+    this.selected[target] = true;
   }
 
-  updateByBlur(index, value) {
-    if (this.isEnterPress) {
-      this.isEnterPress = false;
-      return;
-    }
-    this.update(index, value)
-  }
-
-  updateByEnter(index, value, event) {
-    if (event.keyCode !== this.downkey) { return }
-    this.isEnterPress = true;
-    this.update(index, value);
-  }
-
-  keydown(event) {
-    this.downkey = event.keyCode;
+  clear() {
+    if (!confirm('削除しますか?')) { return; }
+    localStorage.clear();
   }
 }
 

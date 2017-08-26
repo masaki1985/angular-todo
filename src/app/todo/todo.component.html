@@ -1,11 +1,33 @@
-<h2>todoList</h2>
-<input type="text" #newTodo autofocus (keydown)="keydown($event)" (keyup.enter)="addByEnter(newTodo, $event)">
-<button type="button" (click)="add(newTodo)">add</button>
-<ul>
-  <li *ngFor="let todo of TodoList; let index = index;">
-    <input type="checkbox" (click)="doCheck(index)">
-    <span *ngIf="!todo.isEdit" (click)="edit(index)" [class.completed]="todo.isCompleted">{{todo.todo}}</span>
-    <input #inputTodo *ngIf="todo.isEdit" type="text" value="{{todo.todo}}" (blur)="updateByBlur(index, inputTodo.value)" (keydown)="keydown($event)" (keyup.enter)="updateByEnter(index, inputTodo.value, $event)">
-    <button type="button" (click)="delete(index)">delete</button>
+<h2>todo</h2>
+<ul class="todo">
+   <!-- <li>
+    <button type="button" (click)="gotoDaily('dayily')">今日中</button>
   </li>
+  <li>
+    <button type="button" (click)="gotoWeekly('weekly')">今週中</button>
+  </li>
+  <li>
+    <button type="button" (click)="gotoMonthly('monthly')">今月中</button>
+  </li>
+  <li>
+    <button type="button" (click)="gotoNoLimit('noLimit')">無期限</button>
+  </li>  -->
+  <li>
+    <button type="button" (click)="select('daily')" [class.selected]="selected['daily']">今日中</button>
+  </li>
+  <li>
+    <button type="button" (click)="select('weekly')" [class.selected]="selected['weekly']">今週中</button>
+  </li>
+  <li>
+    <button type="button" (click)="select('monthly')" [class.selected]="selected['monthly']">今月中</button>
+  </li>
+  <li>
+    <button type="button" (click)="select('noLimit')" [class.selected]="selected['noLimit']">無期限</button>
+  </li> 
 </ul>
+<app-daily *ngIf="selectedList === 'daily'"></app-daily>
+<app-weekly *ngIf="selectedList === 'weekly'"></app-weekly>
+<app-monthly *ngIf="selectedList === 'monthly'"></app-monthly>
+<app-no-limit *ngIf="selectedList === 'noLimit'"></app-no-limit>
+<button type="button" (click)="clear()">clear</button>
+
