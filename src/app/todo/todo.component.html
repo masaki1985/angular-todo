@@ -1,17 +1,5 @@
 <h2>todo</h2>
 <ul class="todo">
-   <!-- <li>
-    <button type="button" (click)="gotoDaily('dayily')">今日中</button>
-  </li>
-  <li>
-    <button type="button" (click)="gotoWeekly('weekly')">今週中</button>
-  </li>
-  <li>
-    <button type="button" (click)="gotoMonthly('monthly')">今月中</button>
-  </li>
-  <li>
-    <button type="button" (click)="gotoNoLimit('noLimit')">無期限</button>
-  </li>  -->
   <li>
     <button type="button" (click)="select('daily')" [class.selected]="selected['daily']">今日中</button>
   </li>
@@ -29,5 +17,7 @@
 <app-weekly *ngIf="selectedList === 'weekly'"></app-weekly>
 <app-monthly *ngIf="selectedList === 'monthly'"></app-monthly>
 <app-no-limit *ngIf="selectedList === 'noLimit'"></app-no-limit>
-<button type="button" (click)="clear()">clear</button>
+
+<!-- 開発時に使用 -->
+<!-- <button type="button" (click)="clear()">clear</button> -->
 

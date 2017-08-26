@@ -29,4 +29,8 @@ export class LocalstorageService {
     return this[target + this.List]
   }
 
+  remove(target) {
+    localStorage.removeItem(target);
+  }
+
 }

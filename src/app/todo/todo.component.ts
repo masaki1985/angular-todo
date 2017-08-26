@@ -24,32 +24,16 @@ export class TodoComponent implements OnInit {
 
   ngOnInit() {　}
 
-  gotoDaily() {
-    this.router.navigateByUrl('daily')
-  }
-
-  gotoWeekly() {
-    this.router.navigateByUrl('weekly')
-  }
-
-  gotoMonthly() {
-    this.router.navigateByUrl('monthly')
-  }
-
-  gotoNoLimit() {
-    this.router.navigateByUrl('noLimit')
-  }
-
   goto(target) {
     this.router.navigateByUrl(target);
   }
 
   select(target) {
     this.selectedList = target;
-    this.selected['daily'] = false;
-    this.selected['weekly'] = false;
-    this.selected['monthly'] = false;
-    this.selected['noLimit'] = false;
+
+    Object.keys(this.selected).forEach(element => {
+      this.selected[element] = false;
+    })
     this.selected[target] = true;
   }
 

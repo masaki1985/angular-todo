@@ -16,6 +16,8 @@ export class WeeklyComponent implements OnInit {
   target = 'weekly';
   isEnterPress = false;
   isHidden = false;
+  isAllChecked = true;
+  completedLabel = 'isCompleted';
   enterkeyCode = 13;
 
   constructor(
@@ -25,6 +27,15 @@ export class WeeklyComponent implements OnInit {
 
   ngOnInit() {
     this.todoList = this.localstorageService.get(this.target);
+    if (!this.todoList || this.todoList.length === 0) {
+      this.isAllChecked = false;
+      return;
+    }
+    this.todoList.forEach(res => {
+      if (res[this.completedLabel] === false) {
+        this.isAllChecked = false;
+      }
+    })
   }
 
   add(element) {
@@ -60,7 +71,7 @@ export class WeeklyComponent implements OnInit {
 
   delete(index) {
     if (!this.todoList[index].isCompleted) {
-      alert('完了していません');
+      alert('完了していないので削除できません');
       return;
     }
     this.todoList.splice(index, 1);
@@ -68,17 +79,23 @@ export class WeeklyComponent implements OnInit {
   }
 
   move(index, target) {
+    if (!target) { return; }
+
     const data = this.todoList.splice(index, 1);
     this.localstorageService.set(this.target, this.todoList);
 
-    let list = this.localstorageService.get(target);
-    if (list) {
-      list = list.concat(data);
-    } else {
-      list = data;
+    let moveList = this.localstorageService.get(target);
+    if (!moveList) {
+      moveList = [];
     }
+    moveList = moveList.concat(data);
+    // if (moveList) {
+    //   moveList = moveList.concat(data);
+    // } else {
+    //   moveList = data;
+    // }
 
-    this.localstorageService.set(target, list);
+    this.localstorageService.set(target, moveList);
     this.ngOnInit();
   }
 
@@ -127,8 +144,47 @@ export class WeeklyComponent implements OnInit {
     });
   }
 
-  back() {
-    this.router.navigateByUrl('');
+  checkAll() {
+    if (!this.todoList) { return; }
+    if (!this.isAllChecked) {
+      this.todoList.forEach(res => res[this.completedLabel] = true);
+      this.localstorageService.set(this.target, this.todoList);
+      this.isAllChecked = true;
+    } else {
+      this.todoList.forEach(res => res[this.completedLabel] = false);
+      this.localstorageService.set(this.target, this.todoList);
+      this.isAllChecked = false;
+    }
+
+  }
+
+  deleteAll() {
+    if (!confirm('完了済みのリストを全て削除しますか？')) { return; }
+    let remainedList = [];
+    Object.keys(this.todoList).forEach(index => {
+      if (this.todoList[index][this.completedLabel] === false) {
+        remainedList = remainedList.concat(this.todoList[index]);
+      }
+    })
+    this.localstorageService.set(this.target, remainedList);
+    this.ngOnInit();
+  }
+
+  moveAll(target) {
+    if (!target) { return; }
+    if (target === this.target) { return; }
+    if (!confirm('リストを全て移動しますか')) { return; }
+
+    let moveList = this.localstorageService.get(target);
+    if (!moveList) {
+      moveList = [];
+    }
+    Object.keys(this.todoList).forEach(index => {
+      moveList = moveList.concat(this.todoList[index]);
+    })
+    this.localstorageService.remove(this.target);
+    this.localstorageService.set(target, moveList);
+    this.ngOnInit();
   }
 
 }
