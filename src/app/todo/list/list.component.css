@@ -7,3 +7,6 @@ ul {
 .click {
     cursor: pointer;
 }
+.list {
+    padding: 0;
+}

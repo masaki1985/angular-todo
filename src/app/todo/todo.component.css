@@ -1,5 +1,6 @@
 .todo {
     list-style-type: none;
+    padding: 0;
 }
 .todo li {
     display: inline-block;
