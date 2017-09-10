@@ -1,19 +1,12 @@
 <ul class="todo">
-  <li>
-    <button type="button" (click)="select('daily')" [class.selected]="selected['daily']">今日中</button>
+  <li *ngFor="let tag of tagList">
+    <button type="button" (click)="select(tag.id)" [class.selected]="tag.isSelected">{{tag.title}}</button>
   </li>
-  <li>
-    <button type="button" (click)="select('weekly')" [class.selected]="selected['weekly']">今週中</button>
-  </li>
-  <li>
-    <button type="button" (click)="select('monthly')" [class.selected]="selected['monthly']">今月中</button>
-  </li>
-  <li>
-    <button type="button" (click)="select('noLimit')" [class.selected]="selected['noLimit']">無期限</button>
-  </li> 
 </ul>
-<app-list [target]="selectedList"></app-list>
+<button *ngIf="!isHidden" #addTagBtn type="button" (click)="addStart()">+</button>
+<input *ngIf="isHidden" #addTag type="text" (blur)="addByBlur(addTag.value)">
+<button #delTagBtn type="button" (click)="deleteTag()">×</button>
+<app-list [target]="selectedId" [tagList]="tagList"></app-list>
 
 <!-- 開発時に使用 -->
 <!-- <button type="button" (click)="clear()">clear</button> -->
-

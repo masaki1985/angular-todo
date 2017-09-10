@@ -10,10 +10,9 @@
     <button type="button" (click)="delete(index)">×</button>
     <select #moveTodo type="select" (blur)="move(index, moveTodo.value)">      
       <option value="">移動</option>
-      <option value="daily">今日中</option>
-      <option value="weekly">今週中</option>
-      <option value="monthly">今月中</option>
-      <option value="noLimit">無期限</option>
+      <ng-container *ngFor="let tag of tagList">
+        <option value="{{tag.id}}">{{tag.title}}</option>
+      </ng-container>
     </select>
   </li>
   <li>
@@ -23,9 +22,8 @@
   <button type="button" (click)="deleteAll()">全削除</button>
   <select #moveTodo type="select" (blur)="moveAll(moveTodo.value)">      
     <option value="">全移動</option>
-    <option value="daily">今日中</option>
-    <option value="weekly">今週中</option>
-    <option value="monthly">今月中</option>
-    <option value="noLimit">無期限</option>
+    <ng-container *ngFor="let tag of tagList">
+        <option value="{{tag.id}}">{{tag.title}}</option>
+    </ng-container>
   </select>
 </ul>

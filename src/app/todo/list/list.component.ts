@@ -11,7 +11,8 @@ export class ListComponent implements OnInit {
 
   @ViewChildren('editTodo') editTodo: QueryList<ElementRef>;
   @ViewChildren('addTodo') addTodo: QueryList<ElementRef>;
-  @Input() target: String;
+  @Input() target;
+  @Input() tagList;
 
   todoList;
   isEnterPress = false;
@@ -26,7 +27,7 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.todoList = this.localstorageService.get(this.target);
+    this.todoList = this.localstorageService.get(this.target.toString());
     if (!this.todoList || this.todoList.length === 0) {
       this.isAllChecked = false;
       return;

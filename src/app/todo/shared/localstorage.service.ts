@@ -3,21 +3,19 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class LocalstorageService {
 
-  dailyList;
-  weeklyList;
-  monthlyList;
-  noLimitList;
-  List = 'List';
+  tagList = [];
+  todoList = [];
 
   constructor() {
     this.load();
   }
 
   load() {
-    this.dailyList = JSON.parse(localStorage.getItem('daily'));
-    this.weeklyList = JSON.parse(localStorage.getItem('weekly'));
-    this.monthlyList = JSON.parse(localStorage.getItem('monthly'));
-    this.noLimitList = JSON.parse(localStorage.getItem('noLimit'));
+    this.tagList = JSON.parse(localStorage.getItem('tag'));
+    if (!this.tagList) { return; }
+    for (let i = 0; i < this.tagList.length ; i++) {
+      this.todoList[i] = JSON.parse(localStorage.getItem(i.toString()));
+    }
   }
 
   set(target, list) {
@@ -26,7 +24,11 @@ export class LocalstorageService {
   }
 
   get(target) {
-    return this[target + this.List]
+    return this.todoList[target];
+  }
+
+  getTag() {
+    return this.tagList;
   }
 
   remove(target) {
